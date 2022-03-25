@@ -24,7 +24,7 @@ public class BookerSteps extends GenericSteps {
      * @param resSpec
      * @return ValidatableResponse
      */
-    @Step
+    @Step("Get all Objects of the path {0}.")
     public ValidatableResponse getObjects(String path, RequestSpecification resSpec) {
         return get(path, resSpec);
     }
@@ -34,7 +34,7 @@ public class BookerSteps extends GenericSteps {
      * @param id
      * @return ValidatableResponse
      */
-    @Step
+    @Step("Get the object with id {0}.")
     public ValidatableResponse getById(int id){
         Map<String, ?> pathParams = new HashMap<String, Integer>(){{
             put(PathParams.BOOKING_ID.getValue(), id);
