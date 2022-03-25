@@ -1,24 +1,41 @@
 package app;
 
+import io.restassured.specification.RequestSpecification;
+import net.serenitybdd.junit.runners.SerenityRunner;
+import net.thucydides.core.annotations.Steps;
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import step.booking.BookerSteps;
+import utils.Specifications;
+import utils.constants.Endpoint;
+
+import java.lang.reflect.Array;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.Matchers.hasItems;
 
+/**
+ * @author Edward
+ * @since 03/24/2022
+ */
+@RunWith(SerenityRunner.class)
 public class BookingTest extends TestBase {
 
-    BookingSteps steps;
-
-    public BookingTest() {
-        steps = new BookingSteps();
-    }
+    @Steps
+    BookerSteps steps;
 
     @Test
     public void getAllBookings() {
-        steps
-                .get("/booking")
-                .statusCode(200)
-                    .and()
-                .body("bookingid.findAll { it < 5}", hasItems(1, 2, 3, 4));
-    }
+        RequestSpecification reqSpec = new Specifications().buildSpecification();
 
+        List<Integer> bookings = steps.getObjects(Endpoint.BOOKING.getValue(), reqSpec)
+                .statusCode(200)
+                .extract()
+                .path("bookingid");
+
+        Assert.assertTrue(bookings.size() > 0);
+    }
 }
