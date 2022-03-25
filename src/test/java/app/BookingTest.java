@@ -10,12 +10,7 @@ import step.booking.BookerSteps;
 import utils.Specifications;
 import utils.constants.Endpoint;
 
-import java.lang.reflect.Array;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static org.hamcrest.Matchers.hasItems;
 
 /**
  * @author Edward
