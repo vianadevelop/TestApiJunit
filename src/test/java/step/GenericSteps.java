@@ -40,4 +40,20 @@ public class GenericSteps {
                 .post(path)
                 .then().log().all();
     }
+
+    /**
+     * Generic method to make a delete request
+     * @param path
+     * @param reqSpec
+     * @return
+     */
+    protected ValidatableResponse delete(String path, RequestSpecification reqSpec){
+        return SerenityRest
+                .rest()
+                .given().log().all()
+                .spec(reqSpec)
+                .when()
+                .delete(path)
+                .then().log().all();
+    }
 }

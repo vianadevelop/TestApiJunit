@@ -33,8 +33,8 @@ public class BookerSteps extends GenericSteps {
      * @param id
      * @return ValidatableResponse
      */
-    @Step("Get the object with id {0}.")
-    public ValidatableResponse getById(int id) {
+    @Step("Get the object with id {0} and path {1}.")
+    public ValidatableResponse getById(int id, String path) {
         Map<String, ?> pathParams = new HashMap<String, Integer>() {{
             put(PathParams.BOOKING_ID.getValue(), id);
         }};
@@ -43,7 +43,7 @@ public class BookerSteps extends GenericSteps {
             setContentType(ContentType.JSON);
             setPathParams(pathParams);
         }}.buildSpecification();
-        return get(Endpoint.BOOKING.getValue(), reqSpec);
+        return get(path, reqSpec);
     }
 
     @Step("Create a booking with values {0} and path {1}")
