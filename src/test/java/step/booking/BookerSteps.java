@@ -1,5 +1,6 @@
 package step.booking;
 
+import entity.Booking;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
@@ -19,7 +20,6 @@ import java.util.Map;
 public class BookerSteps extends GenericSteps {
 
     /**
-     *
      * @param path
      * @param resSpec
      * @return ValidatableResponse
@@ -30,20 +30,29 @@ public class BookerSteps extends GenericSteps {
     }
 
     /**
-     *
      * @param id
      * @return ValidatableResponse
      */
     @Step("Get the object with id {0}.")
-    public ValidatableResponse getById(int id){
-        Map<String, ?> pathParams = new HashMap<String, Integer>(){{
+    public ValidatableResponse getById(int id) {
+        Map<String, ?> pathParams = new HashMap<String, Integer>() {{
             put(PathParams.BOOKING_ID.getValue(), id);
         }};
 
-        RequestSpecification reqSpec = new Specifications(){{
+        RequestSpecification reqSpec = new Specifications() {{
             setContentType(ContentType.JSON);
             setPathParams(pathParams);
         }}.buildSpecification();
         return get(Endpoint.BOOKING.getValue(), reqSpec);
+    }
+
+    @Step("Create a booking with values {0} and path {1}")
+    public ValidatableResponse createAnObject(Booking booking, String path) {
+        RequestSpecification reqSpec = new Specifications() {{
+            setContentType(ContentType.JSON);
+            setBody(booking);
+        }}.buildSpecification();
+
+        return post(path, reqSpec);
     }
 }

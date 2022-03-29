@@ -24,4 +24,20 @@ public class GenericSteps {
                     .get(path)
                 .then();
     }
+
+    /**
+     * Generic method to make a post request
+     * @param path
+     * @param reqSpec
+     * @return
+     */
+    protected ValidatableResponse post(String path, RequestSpecification reqSpec){
+        return SerenityRest
+                .rest()
+                .given().log().all()
+                .spec(reqSpec)
+                .when()
+                .post(path)
+                .then().log().all();
+    }
 }
