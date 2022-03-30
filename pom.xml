@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>automated-api-testing</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,6 +19,24 @@
         <lombok.version>1.18.22</lombok.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <env>dev</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>qa</id>
+            <properties>
+                <env>qa</env>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -49,38 +67,53 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-   <build>
-       <plugins>
-           <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-compiler-plugin</artifactId>
-               <version>${maven-compiler-plugin.version}</version>
-               <configuration>
-                   <source>${java.version}</source>
-                   <target>${java.version}</target>
-               </configuration>
-           </plugin>
-           <plugin>
-               <groupId>net.serenity-bdd.maven.plugins</groupId>
-               <artifactId>serenity-maven-plugin</artifactId>
-               <version>${serenity.version}</version>
-               <dependencies>
-                   <dependency>
-                       <groupId>net.serenity-bdd</groupId>
-                       <artifactId>serenity-core</artifactId>
-                       <version>${serenity.version}</version>
-                   </dependency>
-               </dependencies>
-               <executions>
-                   <execution>
-                       <id>serenity-reports</id>
-                       <phase>post-integration-test</phase>
-                       <goals>
-                           <goal>aggregate</goal>
-                       </goals>
-                   </execution>
-               </executions>
-           </plugin>
-       </plugins>
-   </build>
+
+    <build>
+        <!-- Add configuration for property substitution -->
+        <testOutputDirectory>${basedir}/target/classes</testOutputDirectory>
+        <!-- Loading all ${} -->
+        <filters>
+            <filter>src/test/resources/application-${env}.properties</filter>
+        </filters>
+        <!-- Map ${} into resources -->
+        <resources>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.serenity-bdd.maven.plugins</groupId>
+                <artifactId>serenity-maven-plugin</artifactId>
+                <version>${serenity.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-core</artifactId>
+                        <version>${serenity.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>serenity-reports</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

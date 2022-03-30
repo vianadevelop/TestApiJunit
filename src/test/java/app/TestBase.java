@@ -3,6 +3,8 @@ package app;
 import io.restassured.RestAssured;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import utils.PropertySource;
+import utils.constants.KeyProperties;
 
 /**
  * @author Edward
@@ -12,8 +14,9 @@ public class TestBase {
 
     @BeforeClass
     public static void runOnceBeforeClass() {
-        RestAssured.baseURI = "https://restful-booker.herokuapp.com";
-        RestAssured.port = 443;
+        PropertySource prop = new PropertySource();
+        RestAssured.baseURI = prop.getProperty(KeyProperties.BASE_URI.getValue());
+        RestAssured.port = Integer.parseInt(prop.getProperty(KeyProperties.PORT.getValue()));
         RestAssured.useRelaxedHTTPSValidation();
     }
 
