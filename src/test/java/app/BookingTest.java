@@ -5,8 +5,9 @@ import entity.BookingDate;
 import entity.BookingParent;
 import io.restassured.specification.RequestSpecification;
 import net.serenitybdd.junit.runners.SerenityRunner;
+import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
-import org.hamcrest.Matchers;
+import net.thucydides.core.annotations.Title;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +22,9 @@ import java.util.List;
  * @author Edward
  * @since 03/24/2022
  */
+@Narrative(text={"In order to take control of reservations at the hotel,",
+        "As an owner",
+        "I want to search for availability to make reservations."})
 @RunWith(SerenityRunner.class)
 public class BookingTest extends TestBase {
 
@@ -47,6 +51,7 @@ public class BookingTest extends TestBase {
     }
 
     @Test
+    @Title("Get all bookings to date.")
     public void getAllBookings() {
         RequestSpecification reqSpec = new Specifications().buildSpecification();
 
@@ -59,6 +64,7 @@ public class BookingTest extends TestBase {
     }
 
     @Test
+    @Title("Create a booking with dummy data.")
     public void createABooking() {
         BookingParent bookingParent = steps.createAnObject(booking, Endpoint.BOOKING.getValue())
                 .assertThat()
@@ -72,7 +78,6 @@ public class BookingTest extends TestBase {
 
     @Test
     public void searchBookingById() {
-        // Create a booking for this test, I'll delete this booking as a part of test
         BookingParent bookingParent = steps.createAnObject(booking, Endpoint.BOOKING.getValue())
                 .assertThat()
                 .statusCode(StatusCode.OK.getValue())
