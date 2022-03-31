@@ -8,3 +8,8 @@ Este repositorio tiene como objetivo la automatización de pruebas a API utiliza
     ```` mvn clean verify serenity:aggregate -Pdev````
 
     ```` mvn clean verify serenity:aggregate -Pqa````
+* Para filtrar la ejecución y reportes con Tags:
+
+  ```` mvn clean verify serenity:aggregate -Pqa -Dtags="sprint-2" ````
+  * Nota: Con JUnit, esto se puede lograr proporcionando un solo Tag o una lista de Tags separadas por "or".
+  

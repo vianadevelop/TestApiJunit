@@ -8,6 +8,8 @@ import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.annotations.Title;
+import net.thucydides.core.annotations.WithTag;
+import net.thucydides.core.annotations.WithTagValuesOf;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,6 +54,7 @@ public class BookingTest extends TestBase {
 
     @Test
     @Title("Get all bookings to date.")
+    @WithTag("sprint-1")
     public void getAllBookings() {
         RequestSpecification reqSpec = new Specifications().buildSpecification();
 
@@ -65,6 +68,7 @@ public class BookingTest extends TestBase {
 
     @Test
     @Title("Create a booking with dummy data.")
+    @WithTagValuesOf({"sprint-2", "sprint-3"})
     public void createABooking() {
         BookingParent bookingParent = steps.createAnObject(booking, Endpoint.BOOKING.getValue())
                 .assertThat()
@@ -77,6 +81,8 @@ public class BookingTest extends TestBase {
     }
 
     @Test
+    @Title("Search a booking by booking id.")
+    @WithTag("sprint-4")
     public void searchBookingById() {
         BookingParent bookingParent = steps.createAnObject(booking, Endpoint.BOOKING.getValue())
                 .assertThat()
