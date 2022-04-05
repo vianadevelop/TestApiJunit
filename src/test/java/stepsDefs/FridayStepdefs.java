@@ -9,7 +9,6 @@ import org.junit.Assert;
  * @author Edward
  * @since 03/30/2022
  */
-
 class IsItFriday {
     static String isItFriday(String today) {
        return "Friday".equals(today) ? "TGIF" : "Nope";
