@@ -38,6 +38,7 @@ public class StepDefinitions {
         System.out.println("BEFORE SCENARIO: " + scenario.getName() + " WITH STATUS: " + scenario.getStatus());
     }
 
+    @After
     public void after(@NotNull Scenario scenario) {
         scenario.log("Runs after each scenarios");
         System.out.println("AFTER SCENARIO: " + scenario.getName() + " WITH STATUS: " + scenario.getStatus());

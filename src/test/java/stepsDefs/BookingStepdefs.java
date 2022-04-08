@@ -9,7 +9,9 @@ import net.thucydides.core.annotations.Steps;
 import org.junit.Assert;
 import step.booking.BookerSteps;
 import utils.constants.Endpoint;
+import utils.constants.StatusCode;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -66,5 +68,28 @@ public class BookingStepdefs {
     @And("Total Price less than $ {int}")
     public void totalPriceLessThan$TotalPrice(int totalPrice) {
         Assert.assertTrue(bookingParent.getBooking().getTotalPrice() < totalPrice);
+    }
+
+    /****************************/
+    String fn;
+    String ln;
+    List<String> bookings;
+    @Given("the client {string} {string}")
+    public void theClient(String firstname, String lastname) {
+        fn = firstname;
+        ln = lastname;
+    }
+
+    @When("I need to confirm the client's booking")
+    public void iNeedToConfirmTheClientSBooking() {
+        bookings = steps.getByKey(fn,ln, Endpoint.BOOKING.getValue())
+                .statusCode(StatusCode.OK.getValue())
+                .extract()
+                .path("bookingid");
+    }
+
+    @Then("I must receive the {int}")
+    public void iMustReceiveTheBookingId(int bookingId) {
+        Assert.assertEquals(bookings.size(), bookingId);
     }
 }
